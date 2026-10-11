@@ -57,6 +57,13 @@ int main() {
         else
             cout << 0 << '\n';
     }
+    // Clean up allocated nodes to avoid memory leak detection
+    std::function<void(Node*)> freeTree = [&](Node* node) {
+        if (!node) return;
+        freeTree(node->left);
+        freeTree(node->right);
+        delete node;
+    };
+    freeTree(root);
     return 0;
 }
-
